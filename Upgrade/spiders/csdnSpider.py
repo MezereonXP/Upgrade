@@ -1,4 +1,5 @@
 import scrapy
+import time
 import Upgrade.items as items
 from scrapy.contrib.spiders import CrawlSpider, Rule
 class csdnSpider(CrawlSpider):
@@ -15,8 +16,10 @@ class csdnSpider(CrawlSpider):
         for temp in response.css('.grade-box dl:nth-child(4)'):
             jobMessage = temp.css('::attr(title)').extract()
             item['rank'] = jobMessage
-        f = open('./history', 'a+')
-        f.write(item['visit'][0])
+            import time
+
+        f = open('./history' + time.strftime("%Y-%m", time.localtime()), 'a+')
+        f.write(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + ';' + item['visit'][0])
         f.write(';')
         f.write(item['rank'][0])
         f.write('\n')
